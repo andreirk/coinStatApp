@@ -1,0 +1,76 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+bin/*
+!bin/.gitkeep
+
+# Go specific
+*.o
+*.a
+*.log
+
+# Output of the go coverage tool
+*.cover
+
+# Dependency directories (remove the comment below to include it)
+vendor/
+go.work
+go.work.sum
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Editor directories and files
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Specific to this project
+/coinStatApp
+/coinStatWithKafka
+/bin/coinStatApp
+/bin/coinStatWithKafka
+
+# Temporary data directories
+/data/
+/tmp/
+
+# Log files
+/logs/
+*.log
+
+# Redis dump file
+dump.rdb
+
+# ClickHouse data (if stored locally during development)
+/clickhouse-data/

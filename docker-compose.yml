@@ -1,0 +1,96 @@
+version: '3'
+
+services:
+#  redis:
+#    image: redis:7-alpine
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - redis_data:/data
+##    command: cache-server --requirepass yourpassword
+#    healthcheck:
+##      test: ["CMD", "cache-cli", "-a", "yourpassword", "ping"]
+#      test: ["CMD", "cache-cli", "ping"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 3
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:23.8
+    ports:
+      - "9000:9000"
+      - "8123:8123"
+    environment:
+      CLICKHOUSE_USER: chuser  # Add default user
+      CLICKHOUSE_PASSWORD: chpass  # Add default password
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1  # Enable access control
+    volumes:
+      - clickhouse_data:/var/lib/storage
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.1
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ALLOW_ANONYMOUS_LOGIN: yes
+    healthcheck:
+      test: echo srvr | nc zookeeper 2181 || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.1
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      ALLOW_PLAINTEXT_LISTENER: yes
+    healthcheck:
+      test: kafka-topics --bootstrap-server kafka:9092 --list || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+#  coinStatApp:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    handlers:
+#      - "8080:8080"
+#    depends_on:
+#      - cache
+#      - storage
+#      - kafka
+#    environment:
+#      - REDIS_ADDR=cache:6379
+#      - CLICKHOUSE_DSN=storage:9000
+#      - EVENT_BUFFER_SIZE=10000
+#      - KAFKA_BROKERS=kafka:9092
+#      - KAFKA_TOPIC=swaps
+#      - KAFKA_CONSUMER_GROUP=coinstat-group
+#    restart: unless-stopped
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 3
+
+volumes:
+  redis_data:
+  clickhouse_data:
