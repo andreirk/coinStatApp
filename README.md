@@ -61,12 +61,17 @@ DEBUG=false
 - Go 1.21+
 - Redis (for caching and high-performance statistics)
 - ClickHouse (for persistent storage and historical statistics)
+- Kafka
+
+- !Instead of Redis and ClickHouse and Kafka you can run  docker compose in the project root.
 
 ### Running the Service
 
 1. Clone the repository
 2. Configure your environment variables (see `.env.example`)
-3. Build and run:
+3. cd "path to project root"
+4. docker compose up
+5. In separate terminal Build and run:
 
 ```bash
 go build -o coinStatApp ./cmd/coinStatApp
