@@ -24,9 +24,9 @@ docker-build:
 docker-run:
 	docker run --rm -p 8080:8080 coinStatApp
 
-# Start dependencies (Redis, ClickHouse)
+# Start dependencies (Redis, ClickHouse, Kafka)
 start-deps:
-	docker-compose up -d redis clickhouse
+	docker-compose up -d redis clickhouse kafka
 
 # Stop dependencies
 stop-deps:
