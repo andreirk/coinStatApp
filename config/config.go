@@ -12,6 +12,9 @@ import (
 
 // Config holds all app configuration
 type Config struct {
+	// Environment
+	Env string
+
 	// Server
 	HTTPPort string
 
@@ -50,6 +53,8 @@ func LoadConfig() *Config {
 	}
 
 	cfg := &Config{
+		// Environment
+		Env: getEnv("ENV", "local"),
 		// Server
 		HTTPPort: getEnv("HTTP_PORT", "8080"),
 

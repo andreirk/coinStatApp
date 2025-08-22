@@ -15,8 +15,15 @@ func TestClickHouseRepository(t *testing.T) {
 	// Load test config
 	cfg := config.LoadConfig()
 
+	chConfig := storage.ClickHouseConfig{
+		Addr:     cfg.ClickhouseAddr,
+		Username: cfg.ClickhouseUsername,
+		Password: cfg.ClickhousePassword,
+		Timeout:  cfg.ClickhouseTimeout,
+	}
+
 	// Initialize repository
-	repo, err := storage.NewClickHouseRepository(cfg.ClickHouseDSN)
+	repo, err := storage.NewClickHouseRepository(chConfig)
 	if err != nil {
 		t.Fatalf("Failed to connect to ClickHouse: %v", err)
 	}
