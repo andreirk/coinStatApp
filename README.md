@@ -70,8 +70,11 @@ DEBUG=false
 1. Clone the repository
 2. Configure your environment variables (see `.env.example`)
 3. cd "path to project root"
-4. docker compose up
-5. In separate terminal Build and run:
+4. If you have make:
+    make start-deps
+        or
+5. docker compose up
+6. In separate terminal Build and run:
 
 ```bash
 go build -o coinStatApp ./cmd/coinStatApp
