@@ -47,10 +47,10 @@ func NewApp(ctx context.Context, log *slog.Logger, config *config.Config) (*AppC
 	// Try to initialize persistent storage implementation (ClickHouse)
 	var statsPersistence repository.StatisticsPersistence
 	chConfig := chrepo.ClickHouseConfig{
-		Addr:     app.Config.ClickhouseAddr,
-		Username: app.Config.ClickhouseUsername,
-		Password: app.Config.ClickhousePassword,
-		Timeout:  app.Config.ClickhouseTimeout,
+		Addr:     config.ClickhouseAddr,
+		Username: config.ClickhouseUsername,
+		Password: config.ClickhousePassword,
+		Timeout:  config.ClickhouseTimeout,
 	}
 	clickhouseRepo, err := chrepo.NewClickHouseRepository(chConfig)
 	if err != nil {
