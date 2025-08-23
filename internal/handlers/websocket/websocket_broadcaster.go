@@ -42,7 +42,7 @@ func (b *WebSocketBroadcaster) BroadcastStatistics(stats *model.Statistics) {
 }
 
 // Handler returns an http.HandlerFunc to accept websocket connections.
-func (b *WebSocketBroadcaster) Handler() http.HandlerFunc {
+func (b *WebSocketBroadcaster) Handler() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		conn, err := b.upgrader.Upgrade(w, r, nil)
 		if err != nil {

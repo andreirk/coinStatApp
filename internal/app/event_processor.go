@@ -13,16 +13,11 @@ import (
 // ErrContextCancelled is returned when the context is cancelled during processing
 var ErrContextCancelled = errors.New("context cancelled during processing")
 
-// Broadcaster defines an interface for pushing updates to WebSocket/API layers.
-type Broadcaster interface {
-	BroadcastStatistics(stats *model.Statistics)
-}
-
 // EventProcessor processes swap events from a channel, updates stats, and broadcasts updates.
 type EventProcessor struct {
 	SwapCh       chan *dto.SwapDTO
 	StatsService useCases.StatisticsService
-	Broadcaster  Broadcaster
+	Broadcaster  useCases.Broadcaster
 	DedupCache   map[string]struct{} // simple in-memory deduplication, replace with Redis for HA
 }
 

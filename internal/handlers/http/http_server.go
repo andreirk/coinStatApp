@@ -1,26 +1,24 @@
 package http
 
 import (
+	"coinStatApp/internal/domain/useCases"
 	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"time"
-
-	"coinStatApp/internal/domain/service"
-	"coinStatApp/internal/handlers/websocket"
 )
 
 // Server represents an HTTP server with all routes configured
 type Server struct {
-	statsService *service.TimeWindowedStatisticsService
-	broadcaster  *websocket.WebSocketBroadcaster
+	statsService useCases.StatisticsService
+	broadcaster  useCases.Broadcaster
 	mux          *http.ServeMux
 	server       *http.Server
 }
 
 // NewServer creates a new HTTP server with configured routes
-func NewServer(addr string, statsService *service.TimeWindowedStatisticsService, broadcaster *websocket.WebSocketBroadcaster) *Server {
+func NewServer(addr string, statsService useCases.StatisticsService, broadcaster useCases.Broadcaster) *Server {
 	mux := http.NewServeMux()
 
 	server := &Server{
