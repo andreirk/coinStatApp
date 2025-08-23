@@ -6,6 +6,7 @@ import (
 	"coinStatApp/internal/domain/model"
 	"coinStatApp/internal/domain/service"
 	"context"
+	"net/http"
 	"sync"
 	"testing"
 	"time"
@@ -33,6 +34,13 @@ func (b *MockBroadcaster) GetBroadcasts() []*model.Statistics {
 	b.mu.Lock()
 	defer b.mu.Unlock()
 	return b.broadcasts
+}
+
+// Handler is a dummy implementation to satisfy the useCases.Broadcaster interface.
+func (b *MockBroadcaster) Handler() func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+	}
 }
 
 func TestEventProcessor(t *testing.T) {

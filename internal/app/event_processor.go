@@ -1,7 +1,6 @@
 package app
 
 import (
-	"coinStatApp/internal/domain/model"
 	"context"
 	"errors"
 	"log"
@@ -21,7 +20,7 @@ type EventProcessor struct {
 	DedupCache   map[string]struct{} // simple in-memory deduplication, replace with Redis for HA
 }
 
-func NewEventProcessor(swapCh chan *dto.SwapDTO, statsService useCases.StatisticsService, broadcaster Broadcaster) *EventProcessor {
+func NewEventProcessor(swapCh chan *dto.SwapDTO, statsService useCases.StatisticsService, broadcaster useCases.Broadcaster) *EventProcessor {
 	return &EventProcessor{
 		SwapCh:       swapCh,
 		StatsService: statsService,
