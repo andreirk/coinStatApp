@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"coinStatApp/config"
-	"coinStatApp/internal/domain/model"
+	"coinStatApp/pkg/utils"
 )
 
 func TestMain(m *testing.M) {
@@ -105,7 +105,8 @@ func TestStatsEndpoint(t *testing.T) {
 
 // TestGenerateSwaps verifies the swap generation function
 func TestGenerateSwaps(t *testing.T) {
-	swaps := generateSwaps(100)
+	swapGenerator := utils.NewSwapGenerator()
+	swaps := swapGenerator.GenerateRandomSwap(100)
 
 	if len(swaps) != 100 {
 		t.Errorf("Expected 100 swaps, got %d", len(swaps))
@@ -133,7 +134,7 @@ func TestAppInitialization(t *testing.T) {
 	// This test verifies that the app can initialize its components
 
 	// Create a cancellable context
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	_, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
 	// Load configuration

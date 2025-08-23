@@ -49,7 +49,12 @@ func LoadConfig() *Config {
 	err := godotenv.Load(filepath.Join("../..", ".env")) // Ignore error if .env doesn't exist
 	if err != nil {
 		log.Printf("Error loading .env file: %v", err)
-		panic(err)
+		err := godotenv.Load()
+		if err != nil {
+			log.Printf("Error loading .env file: %v", err)
+			panic(err)
+		}
+
 	}
 
 	cfg := &Config{
