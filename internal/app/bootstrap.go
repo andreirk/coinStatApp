@@ -102,7 +102,6 @@ func NewApp(ctx context.Context, log *slog.Logger, config *config.Config) (*AppC
 		app.SwapCh = make(chan *dto.SwapDTO, app.Config.EventBufferSize)
 		app.EventProcessor = NewEventProcessor(app.SwapCh, app.StatsService, app.Broadcaster)
 	}
-	//app.KafkaProducer = queue.NewKafkaProducer(kafkaConfig)
 
 	return app, nil
 }
